@@ -2,11 +2,17 @@ package org.commkart.handler;
 
 import java.io.Serializable;
 
+import org.commkart.model.Role;
+import org.commkart.model.User;
 import org.springframework.stereotype.Component;
 import java.util.Date;
+import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+
 import static org.commkart.utils.Constant.*;
 
 @Component
@@ -41,4 +47,20 @@ public class TokenProvider implements Serializable {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
     }
+
+    public String generateToken(User user) {
+        final List<String> authorities = user.getRoles().stream()
+                .map(r -> r.getName())
+                .collect(Collectors.toList());
+        String token =  Jwts.builder()
+                .setSubject(user.getEmail())
+                .claim(AUTHORITIES_KEY, authorities)
+                .signWith(SignatureAlgorithm.HS256, SIGNING_KEY)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS*1000))
+                .compact();
+        System.out.println("token " + token);
+        return token;
+    }
+	
 }
