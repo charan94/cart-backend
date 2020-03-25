@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="TEST">
+  <title>CommKart</title>
+  <!-- Favicon -->
+  <link href="/static/img/brand/favicon.png" rel="icon" type="image/png">
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+  <!-- Icons -->
+  <link href="/static/vendor/nucleo/css/nucleo.css" rel="stylesheet">
+  <link href="/static/vendor/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+  <!-- Argon CSS -->
+  <link type="text/css" href="/static/css/argon.min.css?v=1.0.0" rel="stylesheet">
+</head>
+<body class="bg-default">
+    <div class="main-content">
+        <div class="container mt-8 pb-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-5 col-md-7">
+                    <div class="card bg-secondary shadow border-0">
+                        <div class="card-header bg-transparent pb-5">
+                           
+                            <div class="btn-wrapper text-center">
+                                
+                                    <!-- <span class="btn-inner--icon" ><img src="/static/img/logo.jpg" style="width: 90%"></span> -->
+                                    <span class="btn-inner--icon" ><h1>CommKart</h1></span>
+                                   
+                            </div>
+                        </div>
+                        <div class="card-body px-lg-4 py-lg-4">
+                        
+                            <form role="form" action="/auth/login" method="POST">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Email" type="email" name="email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Password" type="password"
+                                            name="password">
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button class="btn btn-primary my-4">Log in</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <a href="/reset-password" class="text-light"><small>Forgot password?</small></a>
+                        </div>
+                        
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Argon JS -->
+    <script src="/static/js/argon.min.js?v=1.0.0"></script>
+    <script type="text/javascript">
+        let url = window.location.href;
+        console.log('url ', url);
+        let error = url.split('#')[1];
+        console.log('error ', error);
+        if(error) {
+            alert('Please check your Login Credentials and try again');
+        }
+    </script>
+
+</body>
+</html>
+

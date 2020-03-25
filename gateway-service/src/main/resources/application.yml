@@ -1,0 +1,63 @@
+hystrix.command.fallbackcmd.execution.isolation.thread.timeoutInMilliseconds: 2000
+server:
+  port: 8080
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+
+eureka:
+  client:
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  profiles:
+    active: local
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/commkart
+    username: commkart-user
+    password: postgres
+  jpa:
+    hibernate.ddl-auto: create
+    show-sql: true
+  cloud:
+    gateway:
+      routes:
+        - id: auth-service
+          uri: 'lb://auth-service'
+          predicates:
+            - Path=/ck-auth/**
+          filters:
+            - name: Hystrix
+              args:
+                name: hystrix
+                fallbackUri: 'forward:/fallback/auth'
+        - id: ck-main
+          uri: 'lb://ck-main'
+          predicates:
+            - Path=/ck/**
+          filters:
+            - name: Hystrix
+              args:
+                name: hystrix
+                fallbackUri: 'forward:/fallback/ck'
+
+security:
+  user:
+    name: root
+    password: password
+  oauth2:
+    client:
+      accessTokenUri: http://localhost:8765/ck-auth/oauth/token
+      userAuthorizationUri: http://localhost:8765/ck-auth/oauth/authorize
+      clientAuthenticationScheme: form
+    resource:
+      userInfoUri: http://localhost:8765/ck-auth/user
+      preferTokenInfo: false  
+  sessions: ALWAYS 
