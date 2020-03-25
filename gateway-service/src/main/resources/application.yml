@@ -30,8 +30,8 @@ spring:
               args:
                 name: hystrix
                 fallbackUri: 'forward:/fallback/auth'
-        - id: ck-main
-          uri: 'lb://ck-main'
+        - id: cmk-frontend
+          uri: 'lb://cmk-frontend'
           predicates:
             - Path=/ck/**
           filters:
