@@ -30,7 +30,7 @@ public class StaticContentConfig {
 
     @Bean
     public RouterFunction<ServerResponse> imgRouter() {
-        return RouterFunctions.resources("/static/**", new ClassPathResource("static/"));
+        return RouterFunctions.resources("/auth/**", new ClassPathResource("static/"));
     }
 
     @Bean

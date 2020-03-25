@@ -12,9 +12,7 @@ import static org.commkart.utils.Constant.*;
 @Component
 public class TokenProvider implements Serializable {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 5754947999230780853L;
 
 	public String getUsernameFromToken(String token) {
