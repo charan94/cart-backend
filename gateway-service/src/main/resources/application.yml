@@ -39,3 +39,12 @@ spring:
               args:
                 name: hystrix
                 fallbackUri: 'forward:/fallback/ck'
+        - id: hystrix-dashboard
+          uri: 'lb://hystrix-dashboard'
+          predicates:
+            - Path=/hystrix/**
+          filters:
+            - name: Hystrix
+              args:
+                name: hystrix
+                fallbackUri: 'forward:/fallback/hystrix'
