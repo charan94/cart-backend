@@ -1,17 +1,10 @@
 spring:
   application:
-    name: auth-service
+    name: core-service
   profiles:
     active: local
-  datasource:
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/commkart
-    username: commkart-user
-    password: postgres
-  jpa:
-    hibernate.ddl-auto: none
 server:
-  port: 8081
+  port: 8083
 management:
   endpoints:
     web:

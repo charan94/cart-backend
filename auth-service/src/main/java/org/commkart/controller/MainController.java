@@ -19,7 +19,6 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Controller
-@RequestMapping("/auth")
 public class MainController {
 
 	@Autowired

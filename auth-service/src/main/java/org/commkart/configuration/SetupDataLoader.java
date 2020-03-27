@@ -50,10 +50,10 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
 		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
 		User user = new User();
-		user.setFirstName("Test");
-		user.setLastName("Test");
-		user.setPassword(passwordEncoder.encode("password"));
-		user.setEmail("test@test.com");
+		user.setFirstName("Sai Charan");
+		user.setLastName("Krishnagiri");
+		user.setPassword(passwordEncoder.encode("Passw0rd1"));
+		user.setEmail("sai.charan@winvest-global.com");
 		user.setRoles(Arrays.asList(adminRole));
 		user.setEnabled(true);
 		userRepository.save(user);
@@ -74,7 +74,6 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 
 	@Transactional
 	private Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
-
 		Role role = roleRepository.findByName(name);
 		if (role == null) {
 			role = new Role(name);

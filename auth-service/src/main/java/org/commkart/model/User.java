@@ -20,26 +20,33 @@ public class User {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ck_user_id")
 	private Long id;
+
+	@Column(name = "ck_user_first_name")
 	private String firstName;
+
+	@Column(name = "ck_user_last_name")
 	private String lastName;
+
+	@Column(name = "ck_user_email")
 	private String email;
+
+	@Column(name = "ck_user_password")
 	private String password;
+
+	@Column(name = "ck_user_enabled")
 	private boolean enabled;
-	private boolean tokenExpired;
-	
-	@Column(name = "created", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
 	private Timestamp created;
-	
-	@Column(name = "updated", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp updated;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+	@JoinTable(name = "ck_user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "ck_user_id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "ck_role_id"))
 	private Collection<Role> roles;
-	
+
 	public User() {
-		
+
 	}
 
 	public Long getId() {
@@ -90,14 +97,6 @@ public class User {
 		this.enabled = enabled;
 	}
 
-	public boolean isTokenExpired() {
-		return tokenExpired;
-	}
-
-	public void setTokenExpired(boolean tokenExpired) {
-		this.tokenExpired = tokenExpired;
-	}
-
 	public Timestamp getCreated() {
 		return created;
 	}
@@ -121,7 +120,5 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-	
-	
 
 }

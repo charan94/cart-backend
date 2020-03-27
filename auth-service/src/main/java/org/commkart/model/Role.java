@@ -10,36 +10,38 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 
 @Entity
+@Table(name = "ck_role")
 public class Role {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "ck_role_id")
 	private Long id;
 
+	@Column(name = "ck_role_name")
 	private String name;
-	
+
+	@Column(name = "ck_role_desc")
 	private String description;
-	
+
 	@ManyToMany(mappedBy = "roles")
 	private Collection<User> users;
 
 	@ManyToMany
-	@JoinTable(name = "roles_privileges", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "id"))
+	@JoinTable(name = "ck_role_privilege", joinColumns = @JoinColumn(name = "role_id", referencedColumnName = "ck_role_id"), inverseJoinColumns = @JoinColumn(name = "privilege_id", referencedColumnName = "ck_privilege_id"))
 	private Collection<Privilege> privileges;
-	
-	@Column(name = "created", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
 	private Timestamp created;
-	
-	@Column(name = "updated", columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private Timestamp updated;
-	
+
 	public Role() {
-		
+
 	}
-	
+
 	public Role(String name) {
 		this.name = name;
 	}
