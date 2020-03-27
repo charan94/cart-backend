@@ -25,23 +25,19 @@ public class AuthService {
 		LoginResponse response = null;
 		try {
 			User user = userRepo.findByEmail(request.getEmail());
-			if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-				response = new LoginResponse(tokenProvider.generateToken(user));
+			if(user != null) {
+				if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+					response = new LoginResponse(tokenProvider.generateToken(user));
+				}
+				else {
+					throw new Error("Password Incorrect");
+				}
+			}
+			else {
+				throw new Error("User not found");
 			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
-		}
-		return response;
-	}
-
-	public LoginResponse register(User user) {
-		LoginResponse response = null;
-		try {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			userRepo.save(user);
-			response = new LoginResponse(tokenProvider.generateToken(user));
-		} catch (Exception ex) {
-			ex.toString();
 		}
 		return response;
 	}

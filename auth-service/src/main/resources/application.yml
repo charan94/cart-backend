@@ -10,6 +10,18 @@ spring:
     password: postgres
   jpa:
     hibernate.ddl-auto: none
+  mail:
+    default-encoding: UTF-8
+    host: smtp.sendgrid.net
+    port: 587
+    username: apikey
+    password: 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
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.sendgrid.net
 server:
   port: 8081
 management:

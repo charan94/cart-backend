@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.RouterFunctions;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -17,6 +18,11 @@ import static org.springframework.web.reactive.function.server.ServerResponse.ok
 @Configuration
 public class StaticContentConfig {
 
+	@Bean
+	public RouterFunction<ServerResponse> baseRouter(@Value("classpath:/static/index.html") Resource html) {
+		return route(GET("/"), request -> ok().contentType(MediaType.TEXT_HTML).syncBody(html));
+	}
+	
 	@Bean
 	public RouterFunction<ServerResponse> indexRouter(@Value("classpath:/static/index.html") Resource html) {
 		return route(GET("/home"), request -> ok().contentType(MediaType.TEXT_HTML).syncBody(html));
@@ -36,5 +42,10 @@ public class StaticContentConfig {
 	@Bean
 	public RouterFunction<ServerResponse> imgRouter() {
 		return RouterFunctions.resources("/**", new ClassPathResource("static/"));
+	}
+
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
 	}
 }

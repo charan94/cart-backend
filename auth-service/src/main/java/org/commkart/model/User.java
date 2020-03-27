@@ -22,6 +22,9 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "ck_user_id")
 	private Long id;
+	
+	@Column(name = "ck_user_title")
+	private String title;
 
 	@Column(name = "ck_user_first_name")
 	private String firstName;
@@ -31,6 +34,12 @@ public class User {
 
 	@Column(name = "ck_user_email")
 	private String email;
+	
+	@Column(name = "ck_user_phone")
+	private String phone;
+	
+	@Column(name = "ck_user_business_interest")
+	private String businessInterest;
 
 	@Column(name = "ck_user_password")
 	private String password;
@@ -120,5 +129,31 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getBusinessInterest() {
+		return businessInterest;
+	}
+
+	public void setBusinessInterest(String businessInterest) {
+		this.businessInterest = businessInterest;
+	}
+	
+	
 
 }
