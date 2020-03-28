@@ -3,7 +3,13 @@ server:
 spring:
   profiles:
     active: local
+  cloud:
+    loadBalancer:
+      ribbon:
+        enabled: false
 eureka:
+  server:
+    enableSelfPreservation: false
   instance:
     hostname: localhost
     preferIpAddress: true

@@ -3,6 +3,10 @@ spring:
     name: core-service
   profiles:
     active: local
+  cloud:
+    loadBalancer:
+      ribbon:
+        enabled: false
 server:
   port: 8083
 management:

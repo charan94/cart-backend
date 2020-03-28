@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
+
 import reactor.core.publisher.Mono;
 
 @Configuration
@@ -25,11 +27,11 @@ public class SecurityConfig {
 	SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
 		String[] patterns = new String[] { "/auth/**", "/auth-static/**", "/hystrix", "/hystrix.stream", "/hystrix/**",
 				"/webjars/**", "/favicon.ico", "/hx-dash/**", "/core/**" };
-		return http.cors().disable().exceptionHandling().authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
-			swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
-		})).accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> {
-			swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
-		})).and().csrf().disable().authenticationManager(authenticationManager)
+		return http.cors().disable().exceptionHandling()
+				.authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/auth/login"))
+				.accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> {
+					swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
+				})).and().csrf().disable().authenticationManager(authenticationManager)
 				.securityContextRepository(securityContextRepository).authorizeExchange().pathMatchers(patterns)
 				.permitAll().pathMatchers(HttpMethod.OPTIONS).permitAll().anyExchange().authenticated().and().build();
 	}

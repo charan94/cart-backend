@@ -22,6 +22,10 @@ spring:
       auth: true
       starttls.enable: true
       ssl.trust: smtp.sendgrid.net
+  cloud:
+    loadBalancer:
+      ribbon:
+        enabled: false
 server:
   port: 8081
 management:

@@ -3,6 +3,10 @@ spring:
     name: hystrix-dashboard
   profiles:
     active: local
+  cloud:
+    loadBalancer:
+      ribbon:
+        enabled: false
 server:
   port: 7979
 management:

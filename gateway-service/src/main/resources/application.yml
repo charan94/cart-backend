@@ -19,6 +19,9 @@ spring:
   profiles:
     active: local
   cloud:
+    loadBalancer:
+      ribbon:
+        enabled: false
     gateway:
       routes:
         - id: auth-service
