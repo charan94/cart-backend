@@ -6,6 +6,7 @@ import org.commkart.handler.TokenProvider;
 import org.commkart.model.User;
 import org.commkart.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,9 @@ public class AuthService {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Value("${ck-redirect-url}")
+	private String redirectUrl;
 
 	public LoginResponse login(LoginRequest request) {
 		LoginResponse response = null;
@@ -27,7 +31,8 @@ public class AuthService {
 			User user = userRepo.findByEmail(request.getEmail());
 			if(user != null) {
 				if (passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-					response = new LoginResponse(tokenProvider.generateToken(user));
+					String token = tokenProvider.generateToken(user);
+					response = new LoginResponse(token, redirectUrl + token);
 				}
 				else {
 					throw new Error("Password Incorrect");

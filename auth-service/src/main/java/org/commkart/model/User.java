@@ -46,6 +46,9 @@ public class User {
 
 	@Column(name = "ck_user_enabled")
 	private boolean enabled;
+	
+	@Column(name = "ck_company_name")
+	private String companyName;
 
 	private Timestamp created;
 	private Timestamp updated;
@@ -153,6 +156,15 @@ public class User {
 	public void setBusinessInterest(String businessInterest) {
 		this.businessInterest = businessInterest;
 	}
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	
 	
 	
 

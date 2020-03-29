@@ -28,12 +28,17 @@ public class UserService {
 
 	public void register(User user) {
 		try {
-			String pass = CKUtils.generatePassword(10);
-			user.setPassword(passwordEncoder.encode(pass));
-			Role userRole = roleRepo.findByName("ROLE_USER");
-			user.setRoles(Arrays.asList(userRole));
-			userRepo.save(user);
-			mailService.sendEmail(user, pass);
+			if(userRepo.findByEmail(user.getEmail()) == null) {
+				String pass = CKUtils.generatePassword(10);
+				user.setPassword(passwordEncoder.encode(pass));
+				Role userRole = roleRepo.findByName("ROLE_USER");
+				user.setRoles(Arrays.asList(userRole));
+				userRepo.save(user);
+				mailService.sendEmail(user, pass);
+			} 
+			else {
+				throw new Error("You have already registered. Please check your mail.");
+			}
 		} catch (Exception ex) {
 			throw new Error("Error in Registering user");
 		}

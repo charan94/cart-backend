@@ -1,7 +1,0 @@
-spring:
-  application:
-    name: cmk-frontend
-  profiles:
-    active: local
-server:
-  port: 8082

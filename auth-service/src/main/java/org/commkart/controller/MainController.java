@@ -59,6 +59,7 @@ public class MainController {
 				user.setEmail(data.getFirst("email"));
 				user.setPhone(data.getFirst("phone"));
 				user.setBusinessInterest(data.getFirst("businessInterest"));
+				user.setCompanyName(data.getFirst("companyName"));
 				user.setEnabled(true);
 				try {
 					userService.register(user);
