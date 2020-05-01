@@ -43,24 +43,35 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
 			return;
 		Privilege readPrivilege = createPrivilegeIfNotFound("READ_PRIVILEGE");
 		Privilege writePrivilege = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
+		Privilege guestPrivilege = createPrivilegeIfNotFound("GUEST_PRIVILEGE");
 
 		List<Privilege> adminPrivileges = Arrays.asList(readPrivilege, writePrivilege);
 		createRoleIfNotFound("ROLE_ADMIN", adminPrivileges);
 		createRoleIfNotFound("ROLE_USER", Arrays.asList(readPrivilege));
+		createRoleIfNotFound("ROLE_GUEST", Arrays.asList(guestPrivilege));
 
-		if(userRepository.findByEmail("sai.charan@winvest-global.com") != null) {
-			return;
+		if (userRepository.findByEmail("sai.charan@winvest-global.com") != null) {
+			Role adminRole = roleRepository.findByName("ROLE_ADMIN");
+			User user = new User();
+			user.setFirstName("Sai Charan");
+			user.setLastName("Krishnagiri");
+			user.setPassword(passwordEncoder.encode("Passw0rd1"));
+			user.setEmail("sai.charan@winvest-global.com");
+			user.setRoles(Arrays.asList(adminRole));
+			user.setEnabled(true);
+			userRepository.save(user);
 		}
-		Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-		User user = new User();
-		user.setFirstName("Sai Charan");
-		user.setLastName("Krishnagiri");
-		user.setPassword(passwordEncoder.encode("Passw0rd1"));
-		user.setEmail("sai.charan@winvest-global.com");
-		user.setRoles(Arrays.asList(adminRole));
-		user.setEnabled(true);
-		userRepository.save(user);
-
+		if (userRepository.findByEmail("test@winvest-global.com") != null) {
+			Role guestRole = roleRepository.findByName("ROLE_GUEST");
+			User user = new User();
+			user.setFirstName("Test");
+			user.setLastName("Winvest");
+			user.setPassword(passwordEncoder.encode("Passw0rd1"));
+			user.setEmail("test@winvest-global.com");
+			user.setRoles(Arrays.asList(guestRole));
+			user.setEnabled(true);
+			userRepository.save(user);
+		}
 		alreadySetup = true;
 	}
 

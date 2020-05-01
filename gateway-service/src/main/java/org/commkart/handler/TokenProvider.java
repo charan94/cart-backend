@@ -41,7 +41,7 @@ public class TokenProvider implements Serializable {
 
     public Claims getAllClaimsFromToken(String token) throws SignatureException, ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, IllegalArgumentException, IOException {
     	return Jwts.parserBuilder()
-    			.setSigningKey(SIGNING_KEY.getBytes())
+    			.setSigningKey(SIGNING_KEY)
     			.build()
     			.parseClaimsJws(token).getBody();
     }

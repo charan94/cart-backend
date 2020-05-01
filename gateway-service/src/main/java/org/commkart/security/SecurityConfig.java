@@ -26,9 +26,11 @@ public class SecurityConfig {
 	@Bean
 	SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http) {
 		String[] patterns = new String[] { "/auth/**", "/auth-static/**", "/hystrix", "/hystrix.stream", "/hystrix/**",
-				"/webjars/**", "/favicon.ico", "/hx-dash/**", "/core/**" };
+				"/webjars/**", "/favicon.ico", "/hx-dash/**" };
 		return http.cors().disable().exceptionHandling()
-				.authenticationEntryPoint(new RedirectServerAuthenticationEntryPoint("/auth/login"))
+				.authenticationEntryPoint((swe, e) -> Mono.fromRunnable(() -> {
+                    swe.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                }))
 				.accessDeniedHandler((swe, e) -> Mono.fromRunnable(() -> {
 					swe.getResponse().setStatusCode(HttpStatus.FORBIDDEN);
 				})).and().csrf().disable().authenticationManager(authenticationManager)

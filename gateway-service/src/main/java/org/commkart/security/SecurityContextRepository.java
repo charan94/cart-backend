@@ -1,5 +1,8 @@
 package org.commkart.security;
 
+import java.io.IOException;
+
+import org.commkart.handler.TokenProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,11 @@ import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import reactor.core.publisher.Mono;
 
 @Component
@@ -23,6 +31,9 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private TokenProvider tokenProvider;
 
 	@Override
 	public Mono<Void> save(ServerWebExchange swe, SecurityContext sc) {
@@ -41,7 +52,15 @@ public class SecurityContextRepository implements ServerSecurityContextRepositor
 			logger.warn("couldn't find bearer string, will ignore the header.");
 		}
 		if (authToken != null) {
-			Authentication auth = new UsernamePasswordAuthenticationToken(authToken, authToken);
+			String userName = "";
+			try {
+				userName.concat(tokenProvider.getUsernameFromToken(authToken));
+			} catch (SignatureException | ExpiredJwtException | UnsupportedJwtException | MalformedJwtException
+					| IllegalArgumentException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			Authentication auth = new UsernamePasswordAuthenticationToken(userName, authToken);
 			return this.authenticationManager.authenticate(auth)
 					.map((authentication) -> new SecurityContextImpl(authentication));
 		} else {
